@@ -1,9 +1,9 @@
-# Project Outline
+## Project Outline
 
 - Interested in using various subdivision algorithms to smoothen meshes for better processing and visuals.
 - Curious as to how different existing algorithms compare with one another in terms of geometrical properties, runtime, memory space, etc.
 
-# Project PAIN Points
+## Project PAIN Points
 
 - **C/C++ Challenges:**  
   - Attempted using C/C++ initially, but had problems with dependencies (whether to use MingGW 64, MSVC for Microsoft VS, etc.)
@@ -15,10 +15,10 @@
     - Issues with matching new vertex indices with those of new edges.
     - Laptop can't handle more than 7 iterations.
 
-# Learned Info About Graphics
+## General notes
 
 - Tools/Libraries:
-  - **vedo**, **trimesh**, **matplotlib**, or use `igl.writeobj` to convert to `.obj` file.
+  - vedo, trimesh, matplotlib, or use `igl.writeobj` to convert to `.obj` file.
 
 - **Existing Databases with Irregular Meshes:**
   - **RWTT:**  
@@ -44,23 +44,16 @@
     - **Gaussian Curvature:**  
       - Product of the two principal curvatures.
       - Gives insight into local geometric properties (e.g., ellipse, saddle-like shapes).
-      - Example: Pre-butt (-95870), post-butt (-1.6e+8).
+      - Example: Pre-div (-95870), post-div (-1.6e+8).
     - **Mean Curvature:**  
       - Average of the two principal curvatures.
-      - Example: Pre-butt (0.2), post-butt (0).
+      - Example: Pre-div (0.2), post-div (0).
   - To test smoothness, consider other metrics such as normal variation.
+  - Subdivision either interpolation (includes original control pts like butterfly) or approximating (doesn't includ) 
 
-# Learned Info About CMD
-
-- **Caching:**  
-  - Cache consists of locally stored copies, so calling `thingi10k.init()` won't re-download everything and allows downloads to resume.
-- **Installation Tips:**  
-  - If you can’t install with conda, try using pip and vice versa.
-- **Handling Corrupted Files:**  
-  - If you encounter issues, uninstall and then reinstall (e.g., for polyscope).
-
-# Papers/Datasets I Took Inspiration From
+## References
 
 - [Stanford 3D Scanning Repository](https://graphics.stanford.edu/data/3Dscanrep/)
 - (Unrelated but for surface construction) [Stanford CS468 Lecture Slides on Surface Reconstruction](https://graphics.stanford.edu/courses/cs468-12-spring/LectureSlides/03_Surface_Reconstruction.pdf)
 - [Research Paper on Subdivision Algorithms](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=99ca8274377ee438fbb748438aa3057e7f6654a2)
+- http://www.math.tau.ac.il/~niradyn/papers/butterfly.pdf

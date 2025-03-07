@@ -20,6 +20,7 @@ class Butterfly_alg():
             return (a, b) if a < b else (b, a)
         # sorts the edge in consistent order ()
         
+    
         for face_i, face in enumerate(F):
             for e in range(3):
                 i0, i1, i2 = face[e], face[(e+1)%3], face[(e+2)%3]
@@ -34,13 +35,19 @@ class Butterfly_alg():
                 if edge_key not in edges_dict:
                     edges_dict[edge_key] = []
                 edges_dict[edge_key].append((face_i, i2))
-                # similar to adjacency matrix 
+                # similar to adjacency matrix, but mapping each edge to the face that contains them 
         
         new_edge_verts, new_vertices, new_faces = {}, list(V), []
         # new_vertices will contain original v and new pts
+        adj = {i: set() for i in range(len(V))}
         for face in F:
+            v0, v1, v2 = face
+            adj[v0].update([v1, v2])
+            adj[v1].update([v0, v2])
+            adj[v2].update([v0, v1])
+            
             mid_idx = [] # the midpoint indices to preserve order 
-            for e in range(3): # each edge has three faces 
+            for e in range(3): # each face has three edges 
                 i0, i1 = face[e], face[(e+1)%3] # gets the two vertices that form an edge
                 edge_key = sort_edge(i0, i1)
                 
@@ -53,8 +60,14 @@ class Butterfly_alg():
                         
                         p2 = V[oppA]
                         p3 = V[oppB]
+                        p4, p5, p6, p7 = self.find_extra_neighbors(i0, i1, oppA, oppB, adj)    
+                        p4 = V[p4] if p4 is not None else V[i0]  
+                        p5 = V[p5] if p5 is not None else V[i0]  
+                        p6 = V[p6] if p6 is not None else V[i1]  
+                        p7 = V[p7] if p7 is not None else V[i1]  
                         
-                        pm = 0.5 * (p0 + p1) + 0.1 * (-p2 + p3) # the 0.125 is for smoothening
+                        w = 1/16
+                        pm = 0.5 * (p0 + p1) + 2*w* (p2+p3) - w*(p4+p5+p6+p7)
                     else:
                         # if on the border, then just take the average
                         pm = 0.5 * (p0 + p1)
@@ -71,6 +84,35 @@ class Butterfly_alg():
             new_faces.extend([[v0, m01, m20], [m01, v1, m12], [m20, m12, v2], [m01, m12, m20]])
         return np.array(new_vertices, dtype=np.float32), np.array(new_faces, dtype=np.int32)
 
+    def find_extra_neighbors(self, i0, i1, oppA, oppB, adj):
+        """
+        Find the four extra vertices needed for the butterfly subdivision scheme.
+        
+        Parameters:
+        - i0, i1: indices of the two vertices that form the edge being subdivided
+        - oppA, oppB: indices of the opposite vertices in the two triangles sharing the edge
+        - adj: adjacency dictionary mapping vertex indices to their neighbors
+        
+        Returns:
+        - p4, p5, p6, p7: coordinates of the four extra vertices
+        """
+        # Get the additional neighbors needed for the butterfly scheme
+        # each other vertex is adjacent to at least two of the four given inputs 
+        
+        p4_cand = adj[i0].intersection(adj[oppA]) - {i1, oppB}
+        p4_idx = next(iter(p4_cand)) if p4_cand else None
+        
+        p5_cand = adj[i0].intersection(adj[oppB]) - {i1, oppA}
+        p5_idx = next(iter(p5_cand)) if p5_cand else None
+        
+        p6_cand = adj[i1].intersection(adj[oppB]) - {i0, oppA}
+        p6_idx = next(iter(p6_cand)) if p6_cand else None
+
+        p7_cand = adj[i1].intersection(adj[oppA]) - {i0, oppB}
+        p7_idx = next(iter(p7_cand)) if p7_cand else None
+        
+        return p4_idx, p5_idx, p6_idx, p7_idx
+        
 #thingi10k.init()
 #dataset = thingi10k.dataset()
 #V, F = thingi10k.load_file(dataset[0]['file_path'])
@@ -150,9 +192,9 @@ def compute_mean_curvature(V, F):
     """
     Compute per-vertex mean curvature.
     We approximate the Laplace–Beltrami operator using cotangent weights:
-      Δv_i = (1/(2A_i)) * sum_{j in N(i)} (cotα + cotβ)(v_i - v_j)
+      delta v_i = (1/(2A_i)) * sum_{j in N(i)} (cot alpha + cot beta)(v_i - v_j)
     and then set:
-      H_i = 0.5 * ||Δv_i||
+      H_i = 0.5 * ||delta v_i||
     """
     n = V.shape[0]
     L = np.zeros((n, 3))  # Laplacian vector for each vertex
@@ -209,10 +251,6 @@ mean_curv_sub     = compute_mean_curvature(V_sub, F_sub)
 # === Visualization with Polyscope ===
 
 ps.init()
-# Register original mesh.
-#ps.register_surface_mesh("Bunny Mesh", mesh.vertices, mesh.faces, enabled=True)
-# Register subdivided mesh.
-#ps.register_surface_mesh("Subdivided Bunny Mesh", V_sub, F_sub, enabled=True)
 
 mesh_orig = ps.register_surface_mesh("Original Mesh", mesh.vertices, mesh.faces)
 mesh_orig.add_scalar_quantity("Gaussian Curvature", gaussian_curv_orig, defined_on='vertices')
@@ -222,12 +260,11 @@ mesh_sub = ps.register_surface_mesh("Subdivided Mesh", V_sub, F_sub)
 mesh_sub.add_scalar_quantity("Gaussian Curvature", gaussian_curv_sub, defined_on='vertices')
 mesh_sub.add_scalar_quantity("Mean Curvature", mean_curv_sub, defined_on='vertices')
 
-ps.init()
 # Register original mesh
-ps.register_surface_mesh("Bunny Mesh", mesh.vertices, mesh.faces, enabled=True)
+#ps.register_surface_mesh("Bunny Mesh", mesh.vertices, mesh.faces, enabled=True)
 
 # Register subdivided mesh
-ps.register_surface_mesh("Subdivided Bunny Mesh", V_sub, F_sub, enabled=True)
+#ps.register_surface_mesh("Subdivided Bunny Mesh", V_sub, F_sub, enabled=True)
 
 
 def callback():
