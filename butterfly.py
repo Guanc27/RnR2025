@@ -1,3 +1,16 @@
+# 1:4 division, most famous interpolatory subdivision scheme for triangular meshes
+# smooth surfaces for vertices with valence 6 (deg 6) 
+# coord for new vertex is q^{k+1} = 0.5*(p1^k+p2^k) + w/2*(p3^k+p4^k) - w*(p5^k+p6^k+p7^k+p8^k) where usually w=1/16
+
+# adv: provides local rules to compute new vertex positions
+# disadv: not optimal with vertices \neq 6
+    # holes can also be produced when edge is split into triang but not neighboring one 
+    # above is fixed by red-green triangulation
+    
+# Zorin et. al. have developed modified rules, but implement the most basic one here 
+# Kobbelt generalize 4-point scheme for subdividing quadrilateral meshes with arbitrary topology
+
+
 import thingi10k
 import numpy as np
 import polyscope as ps
@@ -280,7 +293,6 @@ def callback():
             
     psim.PopItemWidth()
     
-# simplify mesh (so can then use subdivision alg to smoothen it)
 ps.set_user_callback(callback)
 #simplify_mesh()
 ps.show()

@@ -3,18 +3,6 @@
 - Interested in using various subdivision algorithms to smoothen meshes for better processing and visuals.
 - Curious as to how different existing algorithms compare with one another in terms of geometrical properties, runtime, memory space, etc.
 
-## Project PAIN Points
-
-- **C/C++ Challenges:**  
-  - Attempted using C/C++ initially, but had problems with dependencies (whether to use MingGW 64, MSVC for Microsoft VS, etc.)
-
-- **Python/Conda Issues:**  
-  - Switched to conda instead but after updating Python to 3.10 for thingi10k, ran into further dependency problems with VTK/vedo.
-  - Encountered igl import errors and conflicts.
-  - **Butterfly Subdivision:**  
-    - Issues with matching new vertex indices with those of new edges.
-    - Laptop can't handle more than 7 iterations.
-
 ## General notes
 
 - Tools/Libraries:
@@ -49,7 +37,19 @@
       - Average of the two principal curvatures.
       - Example: Pre-div (0.2), post-div (0).
   - To test smoothness, consider other metrics such as normal variation.
-  - Subdivision either interpolation (includes original control pts like butterfly) or approximating (doesn't includ) 
+  - Subdivision either interpolation (includes original control pts like butterfly) or approximating (doesn't include the original points)
+
+  # Project PAIN Points
+
+- **C/C++ Challenges:**  
+  - Attempted using C/C++ initially, but had problems with dependencies (whether to use MingGW 64, MSVC for Microsoft VS, etc.)
+
+- **Python/Conda Issues:**  
+  - Switched to conda instead but after updating Python to 3.10 for thingi10k, ran into further dependency problems with VTK/vedo.
+  - Encountered igl import errors and conflicts.
+  - **Butterfly Subdivision:**  
+    - Issues with matching new vertex indices with those of new edges.
+    - Laptop can't handle more than 7 iterations. 
 
 ## References
 
@@ -57,3 +57,5 @@
 - (Unrelated but for surface construction) [Stanford CS468 Lecture Slides on Surface Reconstruction](https://graphics.stanford.edu/courses/cs468-12-spring/LectureSlides/03_Surface_Reconstruction.pdf)
 - [Research Paper on Subdivision Algorithms](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=99ca8274377ee438fbb748438aa3057e7f6654a2)
 - http://www.math.tau.ac.il/~niradyn/papers/butterfly.pdf
+- https://people.eecs.berkeley.edu/~sequin/CS284/PAPERS/root3subdiv.pdf
+- 
