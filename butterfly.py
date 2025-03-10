@@ -1,9 +1,12 @@
+# INTERPOLATORY
 # 1:4 division, most famous interpolatory subdivision scheme for triangular meshes
 # smooth surfaces for vertices with valence 6 (deg 6) 
 # coord for new vertex is q^{k+1} = 0.5*(p1^k+p2^k) + w/2*(p3^k+p4^k) - w*(p5^k+p6^k+p7^k+p8^k) where usually w=1/16
 
-# adv: provides local rules to compute new vertex positions
-# disadv: not optimal with vertices \neq 6
+# adv: 
+    # provides local rules to compute new vertex positions
+# disadv: 
+    # not optimal with vertices \neq 6
     # holes can also be produced when edge is split into triang but not neighboring one 
     # above is fixed by red-green triangulation
     
@@ -130,7 +133,8 @@ class Butterfly_alg():
 #dataset = thingi10k.dataset()
 #V, F = thingi10k.load_file(dataset[0]['file_path'])
 
-mesh = trimesh.load_mesh("./bunny/reconstruction/bun_zipper_res4.ply")
+#mesh = trimesh.load_mesh("./bunny/reconstruction/bun_zipper_res4.ply")
+mesh = trimesh.load_mesh("./Aimshape2D/20_cow2.off")
 
 butterfly = Butterfly_alg()
 V_sub, F_sub = butterfly.subdivide_butterfly(mesh.vertices, mesh.faces, iterations=3) # # faces multiply by 4 each time
@@ -204,7 +208,7 @@ def compute_gaussian_curvature(V, F):
 def compute_mean_curvature(V, F):
     """
     Compute per-vertex mean curvature.
-    We approximate the Laplace–Beltrami operator using cotangent weights:
+    We approximate the Laplace-Beltrami operator using cotangent weights:
       delta v_i = (1/(2A_i)) * sum_{j in N(i)} (cot alpha + cot beta)(v_i - v_j)
     and then set:
       H_i = 0.5 * ||delta v_i||

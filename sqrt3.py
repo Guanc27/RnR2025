@@ -1,3 +1,4 @@
+# INTERPOLATORY 
 # 1:3 division, flips edges, after two iterations \exists 9 triangles and edges are split to 3
 # new vertices have deg 6 and deg of old ones don't change 
 # Labsik et. al. also uses adaptive refinement (triangles which do not satisfy a flatness criterion is split)
@@ -5,10 +6,12 @@
 # coord for new vertex is q^{k+1} = 32/81*(p1^k+p2^k+p3^k) - 1/81*(p4^k+p5^k+p6^k) - 1/81*(p7^k+...+p12^k)
 # above computed based on x=5/3
 
-# adv: allows computation of more refinement levels until prescribed mesh complexity is reached
+# adv: 
+    # allows computation of more refinement levels until prescribed mesh complexity is reached
     # doesn't hv the problem of holes, no edges are split 
+    # sike, there's a bunch of holes, but seems to be boundary cases and where valence is high
 # disadv: 
-
+    # 
 
 import numpy as np
 import trimesh
@@ -157,7 +160,9 @@ class Sqrt3Subdivision:
             return (a, b) if a < b else (b, a)
 
 
-mesh = trimesh.load_mesh("./bunny/reconstruction/bun_zipper_res4.ply")
+#mesh = trimesh.load_mesh("./bunny/reconstruction/bun_zipper_res4.ply")
+mesh = trimesh.load_mesh("./Aimshape2D/20_cow2.off")
+
 
 sqrt3 = Sqrt3Subdivision()
 V_sub, F_sub = sqrt3.subdivide(mesh.vertices, mesh.faces, iterations=3)

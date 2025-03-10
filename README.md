@@ -8,7 +8,7 @@
 - Tools/Libraries:
   - vedo, trimesh, matplotlib, or use `igl.writeobj` to convert to `.obj` file.
 
-- **Existing Databases with Irregular Meshes:**
+- **Existing Databases:**
   - **RWTT:**  
     - Uses photo reconstruction methods.
     - Subdivision algorithms can exacerbate problems due to too many vertices.
@@ -25,6 +25,9 @@
       - *Additional Note:*  
         - Some 3D scanning techniques capture connectivity, so treating them as point clouds (i.e., just x, y, z coordinates) discards useful information.
   - Alternatively, use standard methodologies like quadric edge collapse decimation and voxel-based remeshing.
+  - **Polytechnique**
+    - Multiple datasets of triangular meshes (from aim@shape and Thingi10k repo)
+      - genus 0, so surface closed, topologically equiv to spheres but triangulations
 
 - **Testing Subdivision Algorithms:**
   - Either find a database with irregular meshes or decompose a mesh.

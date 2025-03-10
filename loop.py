@@ -1,3 +1,8 @@
+# APPROXIMATING
+# 
+
+
+
 import numpy as np
 
 def subdivide_mid_edge(V, F, iterations=1):
