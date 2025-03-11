@@ -3,11 +3,6 @@
 - Interested in using various subdivision algorithms to smoothen meshes for better processing and visuals.
 - Curious as to how different existing algorithms compare with one another in terms of geometrical properties, runtime, memory space, etc.
 
-## General notes
-
-- Tools/Libraries:
-  - vedo, trimesh, matplotlib, or use `igl.writeobj` to convert to `.obj` file.
-
 - **Existing Databases:**
   - **RWTT:**  
     - Uses photo reconstruction methods.

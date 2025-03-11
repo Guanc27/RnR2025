@@ -161,8 +161,7 @@ class Sqrt3Subdivision:
 
 
 #mesh = trimesh.load_mesh("./bunny/reconstruction/bun_zipper_res4.ply")
-mesh = trimesh.load_mesh("./Aimshape2D/20_cow2.off")
-
+mesh = trimesh.load_mesh("./Aimshape2D/23-Egea/23_egea.off")
 
 sqrt3 = Sqrt3Subdivision()
 V_sub, F_sub = sqrt3.subdivide(mesh.vertices, mesh.faces, iterations=3)
