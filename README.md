@@ -2,6 +2,7 @@
 
 - Interested in using various subdivision algorithms to smoothen meshes for better processing and visuals.
 - Curious as to how different existing algorithms compare with one another in terms of geometrical properties, runtime, memory space, etc.
+- Understanding different subdivision categories and pros/cons 
 
 - **Existing Databases:**
   - **RWTT:**  
