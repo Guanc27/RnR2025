@@ -86,9 +86,9 @@ class Butterfly_alg():
                         
                         w = 1/16
                         """valence_i0 = len(adj[i0])
-                        factor = 1.0 if valence_i0 == 6 else (valence_i0 / 6.0)"""
+                        factor = 1.0 if valence_i0 == 6 else (valence_i0 / 6.0)
                         
-                        """if len(adj[i0]) < 6:
+                        if len(adj[i0]) < 6:
                             valence.append(len(adj[i0]))"""
                         
                         pm = 0.5 * (p0 + p1) + 2*w* (p2+p3) - (w)*(p4+p5+p6+p7)
