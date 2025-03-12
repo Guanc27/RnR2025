@@ -23,6 +23,9 @@
   - **Polytechnique**
     - Multiple datasets of triangular meshes (from aim@shape and Thingi10k repo)
       - genus 0, so surface closed, topologically equiv to spheres but triangulations
+      - https://www.lix.polytechnique.fr/~amturing/Software/Datasets/Datasets.html
+  - **Computer Graphics Group at MIT**
+    - https://people.csail.mit.edu/sumner/research/deftransfer/data.html
 
 - **Testing Subdivision Algorithms:**
   - Either find a database with irregular meshes or decompose a mesh.
@@ -36,6 +39,7 @@
       - Example: Pre-div (0.2), post-div (0).
   - To test smoothness, consider other metrics such as normal variation.
   - Subdivision either interpolation (includes original control pts like butterfly) or approximating (doesn't include the original points)
+  - Convergent analysis on the refinement meshes
 
   # Project PAIN Points
 
@@ -51,9 +55,11 @@
 
 ## References
 
-- [Stanford 3D Scanning Repository](https://graphics.stanford.edu/data/3Dscanrep/)
-- (Unrelated but for surface construction) [Stanford CS468 Lecture Slides on Surface Reconstruction](https://graphics.stanford.edu/courses/cs468-12-spring/LectureSlides/03_Surface_Reconstruction.pdf)
 - [Research Paper on Subdivision Algorithms](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=99ca8274377ee438fbb748438aa3057e7f6654a2)
-- http://www.math.tau.ac.il/~niradyn/papers/butterfly.pdf
-- https://people.eecs.berkeley.edu/~sequin/CS284/PAPERS/root3subdiv.pdf
-- 
+- [Butterfly scheme] http://www.math.tau.ac.il/~niradyn/papers/butterfly.pdf
+- [Interpolatory sqrt(3) subdivision] https://people.eecs.berkeley.edu/~sequin/CS284/PAPERS/root3subdiv.pdf
+- [Loop subdivision] https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/thesis-10.pdf
+- [Original sqrt(3) subdivision] https://dl.acm.org/doi/pdf/10.1145/344779.344835 
+- https://cs.engr.uky.edu/~cheng/PUBL/Book_CCSS.pdf
+- [General info] https://people.computing.clemson.edu/~dhouse/courses/405/notes/Catmull-Clark.pdf
+- [Alg comparison] https://pubs.aip.org/aip/acp/article/1487/1/343/855266/A-comparison-of-surface-subdivision-algorithms-for?pdfCoverIconEvent=cite

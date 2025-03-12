@@ -140,23 +140,43 @@ class Butterfly_alg():
 #dataset = thingi10k.dataset()
 #V, F = thingi10k.load_file(dataset[0]['file_path'])
 
-#mesh = trimesh.load_mesh("./bunny/reconstruction/bun_zipper_res4.ply")
-mesh = trimesh.load_mesh("./Aimshape2D/23-Egea/23_egea.off")
+mesh = trimesh.load_mesh("./Aimshape2D/20_cow2.off")
+mesh1 = trimesh.load_mesh("./Aimshape2D/23-Egea/23_egea.off")
+mesh2 = trimesh.load_mesh("./Aimshape2D/31-Horse/31_horse.off")
 
 butterfly = Butterfly_alg()
-V_sub, F_sub = butterfly.subdivide_butterfly(mesh.vertices, mesh.faces, iterations=3) # faces multiply by 4 each time
-print(f"Vertices: {len(mesh.vertices)}")
+V_sub, F_sub = butterfly.subdivide_butterfly(mesh.vertices, mesh.faces, iterations=1) # faces multiply by 4 each time
+V_sub1, F_sub1 = butterfly.subdivide_butterfly(mesh1.vertices, mesh1.faces, iterations=1)
+V_sub2, F_sub2 = butterfly.subdivide_butterfly(mesh2.vertices, mesh2.faces, iterations=1)
+"""print(f"Vertices: {len(mesh.vertices)}")
 print(f"Subdivided vertices: {len(V_sub)}")
 print(f"Faces: {len(mesh.faces)}")
-print(f"Subdivided faces: {len(F_sub)}")
+print(f"Subdivided faces: {len(F_sub)}")"""
 
 ps.init()
 
-mesh_orig = ps.register_surface_mesh("Original Mesh", mesh.vertices, mesh.faces)
+offset = np.array([1, 0.0, 0.0])
+mesh1.vertices = mesh1.vertices + offset 
+V_sub1 = V_sub1 + offset
+
+offset = np.array([0.0, 1, 0.0])
+mesh2.vertices = mesh2.vertices + offset 
+V_sub2 = V_sub2 + offset
+
+
+mesh_orig = ps.register_surface_mesh("Original Mesh Cow", mesh.vertices, mesh.faces)
+mesh_sub = ps.register_surface_mesh("Subdivided Mesh Cow", V_sub, F_sub)
+
+mesh_orig1 = ps.register_surface_mesh("Original Mesh Head", mesh1.vertices, mesh1.faces)
+mesh_sub1 = ps.register_surface_mesh("Subdivided Mesh Head", V_sub1, F_sub1)
+
+mesh_orig1 = ps.register_surface_mesh("Original Mesh Horse", mesh2.vertices, mesh2.faces)
+mesh_sub1 = ps.register_surface_mesh("Subdivided Mesh Horse", V_sub2, F_sub2)
+
+
 #mesh_orig.add_scalar_quantity("Gaussian Curvature", gaussian_curv_orig, defined_on='vertices')
 #mesh_orig.add_scalar_quantity("Mean Curvature", mean_curv_orig, defined_on='vertices')
 
-mesh_sub = ps.register_surface_mesh("Subdivided Mesh", V_sub, F_sub)
 #mesh_sub.add_scalar_quantity("Gaussian Curvature", gaussian_curv_sub, defined_on='vertices')
 #mesh_sub.add_scalar_quantity("Mean Curvature", mean_curv_sub, defined_on='vertices')
 
@@ -168,8 +188,12 @@ def callback():
     
     if clicked:
         mesh_enabled = new_state
-        ps.get_surface_mesh("Bunny Mesh").set_enabled(mesh_enabled)
-        ps.get_surface_mesh("Subdivided Bunny").set_enabled(not mesh_enabled)
+        ps.get_surface_mesh("Original Mesh Cow").set_enabled(mesh_enabled)
+        ps.get_surface_mesh("Original Mesh Head").set_enabled(mesh_enabled)
+        ps.get_surface_mesh("Original Mesh Horse").set_enabled(mesh_enabled)
+        ps.get_surface_mesh("Loop Subdivided Mesh Cow").set_enabled(not mesh_enabled)
+        ps.get_surface_mesh("Loop Subdivided Mesh Head").set_enabled(not mesh_enabled)
+        ps.get_surface_mesh("Loop Subdivided Mesh Horse").set_enabled(not mesh_enabled)
             
     psim.PopItemWidth()
     
