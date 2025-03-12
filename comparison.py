@@ -117,14 +117,6 @@ def compare_subdivision_algorithms(V, F, iterations, samples):
             'avg_dist': avg_sqrt, 'max_dist': max_sqrt
         }
     }
-    
-def qual():
-    print("\n--- Qualitative Comparison ---")
-    print("Algorithm      Stationary  Interpol./Approx.  Primal/Dual  Smoothness")
-    print("---------------------------------------------------------------------")
-    print("Butterfly      yes         interpolatory       primal       C^1 in reg. areas")
-    print("Loop           yes         approximating       primal       C^2 in reg. areas")
-    print("√3             yes         interpolatory       primal       (varies, ideally C^1)")
 
 if __name__ == "__main__":
     print("Script started")
@@ -139,8 +131,3 @@ if __name__ == "__main__":
     
     print("Comparing subdivision algorithms...")
     compare_results = compare_subdivision_algorithms(mesh.vertices, mesh.faces, iterations=2, samples=sample_count)
-    
-    print("Performing qualitative comparison...")
-    qual()
-    
-    print("Comparison complete.")
